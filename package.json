@@ -1,0 +1,53 @@
+{
+  "name": "capacitor-sqlite-kysely",
+  "version": "1.0.0",
+  "description": "Kysely dialect for capacitor sqlite",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DawidWetzler/capacitor-sqlite-kysely.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "capacitor",
+    "kysely",
+    "capacitor kysely sqlite",
+    "kysely capacitor sqlite",
+    "capcaitor sqlite kysely",
+    "sqlite",
+    "capacitor sqlite"
+  ],
+  "author": "Dawid Wetzler <wetzlerdawid@gmail.com>",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:lint": "eslint src --ext .ts --fix",
+    "watch:build": "tsc -p tsconfig.json -w"
+  },
+  "dependencies": {
+    "kysely": "^0.26.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "typescript": "^5.2.2"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}
