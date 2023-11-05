@@ -79,6 +79,10 @@ interface CapacitorSQLiteKyselyConfig {
 
 For further readings please refer to [@capacitor-community/sqlite][capacitor-sqlite].
 
+## Examples
+
+- [Nuxt3](https://github.com/DawidWetzler/nuxt3-capacitor-sqlite-kysely-example)
+
 ## License
 
 MIT License, see `LICENSE`.
