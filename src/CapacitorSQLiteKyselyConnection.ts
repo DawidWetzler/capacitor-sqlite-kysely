@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import { CompiledQuery, DatabaseConnection, QueryResult } from 'kysely';
 
 export class CapacitorSQLiteKyselyConnection implements DatabaseConnection {
@@ -15,11 +16,17 @@ export class CapacitorSQLiteKyselyConnection implements DatabaseConnection {
     this.#sqlite = sqlite;
   }
 
+  get db(): CapacitorSQLiteKyselyDatabaseConnection {
+    return this.#database;
+  }
+
   async executeQuery<R>(
     compiledQuery: CompiledQuery<unknown>
   ): Promise<QueryResult<R>> {
-    if (compiledQuery.sql.toLowerCase().includes('select')) {
-      return this.executeSelectQuery(compiledQuery);
+    const isTransaction = (await this.#database.isTransactionActive()).result;
+
+    if (compiledQuery.sql.toLowerCase().includes('select') || isTransaction) {
+      return this.executeSelectOrTransactionQuery(compiledQuery);
     }
 
     const { changes } = await this.#database.run(
@@ -30,10 +37,8 @@ export class CapacitorSQLiteKyselyConnection implements DatabaseConnection {
       compiledQuery.sql.toLowerCase().includes('returning') ? 'all' : 'no'
     );
 
-    try {
+    if (Capacitor.getPlatform() === 'web') {
       this.#sqlite.saveToStore(this.#config.name);
-    } catch (e) {
-      // will throw on ios/android
     }
 
     return {
@@ -43,7 +48,7 @@ export class CapacitorSQLiteKyselyConnection implements DatabaseConnection {
     };
   }
 
-  async executeSelectQuery<R>(
+  async executeSelectOrTransactionQuery<R>(
     compiledQuery: CompiledQuery<unknown>
   ): Promise<QueryResult<R>> {
     const { values } = await this.#database.query(

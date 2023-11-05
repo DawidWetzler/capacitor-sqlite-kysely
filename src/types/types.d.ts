@@ -38,6 +38,19 @@ interface CapacitorSQLiteKyselyDatabaseConnectionResult {
   result?: boolean;
 }
 
+interface CapacitorSQLiteOptions {
+  database?: string;
+  readonly?: boolean;
+}
+
+interface CapacitorSQLiteChangesResult {
+  changes?: {
+    changes?: number;
+    lastId?: number;
+    values?: any[];
+  };
+}
+
 interface CapacitorSQLiteKyselyDatabaseConnection {
   open(): Promise<void>;
   run(
@@ -46,13 +59,7 @@ interface CapacitorSQLiteKyselyDatabaseConnection {
     transaction?: boolean,
     returnMode?: string,
     isSQL92?: boolean
-  ): Promise<{
-    changes?: {
-      changes?: number;
-      lastId?: number;
-      values?: any[];
-    };
-  }>;
+  ): Promise<CapacitorSQLiteChangesResult>;
   query(
     statement: string,
     values?: any[],
@@ -60,6 +67,10 @@ interface CapacitorSQLiteKyselyDatabaseConnection {
   ): Promise<{
     values?: any[];
   }>;
+  beginTransaction(): Promise<CapacitorSQLiteChangesResult>;
+  commitTransaction(): Promise<CapacitorSQLiteChangesResult>;
+  rollbackTransaction(): Promise<CapacitorSQLiteChangesResult>;
+  isTransactionActive(): Promise<{ result?: boolean }>;
 }
 
 interface CapacitorSQLiteKysely {

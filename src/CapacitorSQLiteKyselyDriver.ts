@@ -1,15 +1,12 @@
-import {
-  Driver,
-  CompiledQuery,
-  DatabaseConnection,
-  TransactionSettings,
-} from 'kysely';
+import { Capacitor } from '@capacitor/core';
+import { DatabaseConnection, Driver, TransactionSettings } from 'kysely';
 
 import { CapacitorSQLiteKyselyConnection } from './CapacitorSQLiteKyselyConnection';
 
 export class CapacitorSQLiteKyselyDriver implements Driver {
   #config: CapacitorSQLiteKyselyConfig;
   #sqlite: CapacitorSQLiteKysely;
+  #platform: string = '';
 
   constructor(
     client: CapacitorSQLiteKysely,
@@ -17,14 +14,15 @@ export class CapacitorSQLiteKyselyDriver implements Driver {
   ) {
     this.#sqlite = client;
     this.#config = config;
+    this.#platform = Capacitor.getPlatform();
   }
 
   async init(): Promise<void> {
-    try {
-      await this.#sqlite.initWebStore();
-    } catch (e) {
-      // will throw on ios/android
+    if (this.#platform !== 'web') {
+      return;
     }
+
+    await this.#sqlite.initWebStore();
   }
 
   async acquireConnection(): Promise<DatabaseConnection> {
@@ -61,21 +59,33 @@ export class CapacitorSQLiteKyselyDriver implements Driver {
   }
 
   async beginTransaction(
-    connection: DatabaseConnection,
+    connection: CapacitorSQLiteKyselyConnection,
     settings: TransactionSettings
   ): Promise<void> {
-    await connection.executeQuery(CompiledQuery.raw('BEGIN'));
+    await connection.db.beginTransaction();
   }
 
-  async commitTransaction(connection: DatabaseConnection): Promise<void> {
-    await connection.executeQuery(CompiledQuery.raw('COMMIT'));
+  async commitTransaction(
+    connection: CapacitorSQLiteKyselyConnection
+  ): Promise<void> {
+    await connection.db.commitTransaction();
+
+    if (this.#platform !== 'web') {
+      return;
+    }
+
+    this.#sqlite.saveToStore(this.#config.name);
   }
 
-  async rollbackTransaction(connection: DatabaseConnection): Promise<void> {
-    await connection.executeQuery(CompiledQuery.raw('ROLLBACK'));
+  async rollbackTransaction(
+    connection: CapacitorSQLiteKyselyConnection
+  ): Promise<void> {
+    await connection.db.rollbackTransaction();
   }
 
-  async releaseConnection(connection: DatabaseConnection): Promise<void> {
+  async releaseConnection(
+    connection: CapacitorSQLiteKyselyConnection
+  ): Promise<void> {
     // not implemented
   }
 
