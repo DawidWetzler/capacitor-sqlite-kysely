@@ -2,6 +2,10 @@ import { Capacitor } from '@capacitor/core';
 import { DatabaseConnection, Driver, TransactionSettings } from 'kysely';
 
 import { CapacitorSQLiteKyselyConnection } from './CapacitorSQLiteKyselyConnection';
+import type {
+  CapacitorSQLiteKysely,
+  CapacitorSQLiteKyselyConfig,
+} from './types';
 
 export class CapacitorSQLiteKyselyDriver implements Driver {
   #config: CapacitorSQLiteKyselyConfig;

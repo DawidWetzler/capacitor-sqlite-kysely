@@ -1,5 +1,10 @@
 import { Capacitor } from '@capacitor/core';
 import { CompiledQuery, DatabaseConnection, QueryResult } from 'kysely';
+import type {
+  CapacitorSQLiteKysely,
+  CapacitorSQLiteKyselyConfig,
+  CapacitorSQLiteKyselyDatabaseConnection,
+} from './types';
 
 export class CapacitorSQLiteKyselyConnection implements DatabaseConnection {
   #config: CapacitorSQLiteKyselyConfig;

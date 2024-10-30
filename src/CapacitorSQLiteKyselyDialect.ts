@@ -11,6 +11,10 @@ import {
 } from 'kysely';
 
 import { CapacitorSQLiteKyselyDriver } from './CapacitorSQLiteKyselyDriver';
+import type {
+  CapacitorSQLiteKysely,
+  CapacitorSQLiteKyselyConfig,
+} from './types';
 
 export class CapacitorSQLiteKyselyDialect implements Dialect {
   #config: CapacitorSQLiteKyselyConfig;
