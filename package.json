@@ -1,6 +1,6 @@
 {
   "name": "capacitor-sqlite-kysely",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Kysely dialect for capacitor sqlite",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.mjs",
