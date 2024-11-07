@@ -1,4 +1,4 @@
-interface CapacitorSQLiteKyselyConfig {
+export interface CapacitorSQLiteKyselyConfig {
   /**
    * name of database
    *
@@ -34,16 +34,16 @@ interface CapacitorSQLiteKyselyConfig {
   readonly: boolean;
 }
 
-interface CapacitorSQLiteKyselyDatabaseConnectionResult {
+export interface CapacitorSQLiteKyselyDatabaseConnectionResult {
   result?: boolean;
 }
 
-interface CapacitorSQLiteOptions {
+export interface CapacitorSQLiteOptions {
   database?: string;
   readonly?: boolean;
 }
 
-interface CapacitorSQLiteChangesResult {
+export interface CapacitorSQLiteChangesResult {
   changes?: {
     changes?: number;
     lastId?: number;
@@ -51,7 +51,7 @@ interface CapacitorSQLiteChangesResult {
   };
 }
 
-interface CapacitorSQLiteKyselyDatabaseConnection {
+export interface CapacitorSQLiteKyselyDatabaseConnection {
   open(): Promise<void>;
   run(
     statement: string,
@@ -73,7 +73,7 @@ interface CapacitorSQLiteKyselyDatabaseConnection {
   isTransactionActive(): Promise<{ result?: boolean }>;
 }
 
-interface CapacitorSQLiteKysely {
+export interface CapacitorSQLiteKysely {
   closeConnection(database: string, readonly: boolean): Promise<void>;
   createConnection(
     database: string,

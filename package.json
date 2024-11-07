@@ -37,15 +37,17 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "watch:build": "tsc -p tsconfig.json -w"
   },
-  "dependencies": {
-    "@capacitor/core": "^5.5.1",
-    "kysely": "^0.26.3"
+  "peerDependencies": {
+    "@capacitor/core": ">=5.0.0",
+    "kysely": ">=0.26.0"
   },
   "devDependencies": {
+    "@capacitor/core": "^5.5.1",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
+    "kysely": "^0.26.3",
     "typescript": "^5.2.2"
   },
   "prettier": {
